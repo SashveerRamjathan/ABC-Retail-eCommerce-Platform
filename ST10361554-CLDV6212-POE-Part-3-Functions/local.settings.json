@@ -1,7 +1,8 @@
 {
     "IsEncrypted": false,
     "Values": {
-        "AzureWebJobsStorage": "UseDevelopmentStorage=true",
-        "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated"
+        "AzureWebJobsStorage": "DefaultEndpointsProtocol=https;AccountName=st10361554storage;AccountKey=y65G0MROJBFpcdOkl955/+S9uzxyItwlYFdFdtPuYo7J0phBpwESO80/ppd8DQoQXg6AkfPYxYCd+AStiTqlpg==;EndpointSuffix=core.windows.net",
+        "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
+        "AzureDatabaseConnectionString": "Server=tcp:st10361554-cldv6212-poe-p3-server.database.windows.net,1433;Initial Catalog=st10361554-cldv6212-poe-p3-database;Persist Security Info=False;User ID=st10361554;Password=Sashveer123#;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
     }
 }
