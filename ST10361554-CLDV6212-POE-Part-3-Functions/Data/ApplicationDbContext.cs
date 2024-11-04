@@ -15,6 +15,7 @@ namespace ST10361554_CLDV6212_POE_Part_3_Functions.Data
 
         }
 
+        public DbSet<User> Users { get; set; }
 
     }
 }
