@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using ST10361554_CLDV6212_POE_Part_3_WebApp.Models;
 
 namespace ST10361554_CLDV6212_POE_Part_3_WebApp.Data
 {
@@ -9,6 +10,6 @@ namespace ST10361554_CLDV6212_POE_Part_3_WebApp.Data
 
         }
 
-
+        public DbSet<User> Users { get; set; }
     }
 }
