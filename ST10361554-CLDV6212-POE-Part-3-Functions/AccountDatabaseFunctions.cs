@@ -118,7 +118,7 @@ namespace ST10361554_CLDV6212_POE_Part_3_Functions
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error adding user entity to the table: {ex.Message}");
+                _logger.LogError($"Error adding user to the database: {ex.Message}");
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }
