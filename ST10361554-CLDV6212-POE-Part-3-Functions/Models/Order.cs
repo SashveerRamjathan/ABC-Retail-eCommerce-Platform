@@ -8,7 +8,9 @@ namespace ST10361554_CLDV6212_POE_Part_3_Functions.Models
 {
     public class Order
     {
-        public string Id { get; set; } // order id
+        public string Id { get; set; } // row key
+
+        public string OrderId { get; set; } // order id
 
         public string ProductId { get; set; } // product id
 
