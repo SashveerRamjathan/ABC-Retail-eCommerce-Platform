@@ -18,5 +18,7 @@ namespace ST10361554_CLDV6212_POE_Part_3_Functions.Data
         public DbSet<User> Users { get; set; }
 
         public DbSet<Product> Products { get; set; }
+
+        public DbSet<Order> Orders { get; set; }
     }
 }
