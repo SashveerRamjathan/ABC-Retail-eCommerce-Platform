@@ -95,8 +95,8 @@ namespace ST10361554_CLDV6212_POE_Part_3_Functions
                     }
                 }
 
-                // check that all order items have the same id
-                if (orderItems.Any(item => item.Id != orderItems.First().Id))
+                // check that all order items have the same order id
+                if (orderItems.Any(item => item.OrderId != orderItems.First().OrderId))
                 {
                     _logger.LogError("Invalid request body. All order items must have the same id.");
                     return new BadRequestObjectResult("Invalid request body. All order items must have the same id.");
@@ -126,12 +126,12 @@ namespace ST10361554_CLDV6212_POE_Part_3_Functions
                 // Check if the batch was successful
                 if (response == orderItems.Count)
                 {
-                    _logger.LogInformation($"Order {orderItems.First().Id} created successfully with {orderItems.Count} items.");
-                    return new OkObjectResult($"Order {orderItems.First().Id} created successfully with {orderItems.Count} items.");
+                    _logger.LogInformation($"Order {orderItems.First().OrderId} created successfully with {orderItems.Count} items.");
+                    return new OkObjectResult($"Order {orderItems.First().OrderId} created successfully with {orderItems.Count} items.");
                 }
                 else
                 {
-                    _logger.LogError($"Error creating order {orderItems.First().Id}");
+                    _logger.LogError($"Error creating order {orderItems.First().OrderId}");
                     return new BadRequestObjectResult("Error creating order not all items were inserted. Please try again.");
                 }
 
@@ -190,12 +190,12 @@ namespace ST10361554_CLDV6212_POE_Part_3_Functions
                 // Group the orders by order id
                 foreach (var orderItem in orders)
                 {
-                    if (!ordersDictionary.ContainsKey(orderItem.Id))
+                    if (!ordersDictionary.ContainsKey(orderItem.OrderId))
                     {
-                        ordersDictionary[orderItem.Id] = new List<Order>();
+                        ordersDictionary[orderItem.OrderId] = new List<Order>();
                     }
 
-                    ordersDictionary[orderItem.Id].Add(orderItem);
+                    ordersDictionary[orderItem.OrderId].Add(orderItem);
 
                 }
 
@@ -263,7 +263,7 @@ namespace ST10361554_CLDV6212_POE_Part_3_Functions
                 _logger.LogInformation($"Querying with OrderId: {orderId}, UserId: {userId}");
 
                 // Execute the query
-                orderItems = _context.Orders.Where(o => o.Id == orderId && o.UserId == userId).ToList();
+                orderItems = _context.Orders.Where(o => o.OrderId == orderId && o.UserId == userId).ToList();
 
                 #endregion
 
@@ -344,12 +344,12 @@ namespace ST10361554_CLDV6212_POE_Part_3_Functions
                 // Group items by their OrderId
                 foreach (var orderItem in orders)
                 {
-                    if (!ordersDictionary.ContainsKey(orderItem.Id))
+                    if (!ordersDictionary.ContainsKey(orderItem.OrderId))
                     {
-                        ordersDictionary[orderItem.Id] = new List<Order>();
+                        ordersDictionary[orderItem.OrderId] = new List<Order>();
                     }
 
-                    ordersDictionary[orderItem.Id].Add(orderItem);
+                    ordersDictionary[orderItem.OrderId].Add(orderItem);
                 }
 
                 _logger.LogInformation($"Order history for user {userId} retrieved successfully, grouped by order id.");
@@ -416,7 +416,7 @@ namespace ST10361554_CLDV6212_POE_Part_3_Functions
                 _logger.LogInformation($"Querying with OrderId: {orderId}");
 
                 // Query all items in the order
-                var items = _context.Orders.Where(o => o.Id == orderId).ToList();
+                var items = _context.Orders.Where(o => o.OrderId == orderId).ToList();
 
                 // Check if no order items were found for order id
                 if (items == null || items.Count == 0)
@@ -535,7 +535,7 @@ namespace ST10361554_CLDV6212_POE_Part_3_Functions
                 Order? item;
 
                 // get the order item
-                item = _context.Orders.FirstOrDefault(o => o.Id == orderId && o.ProductId == productId);
+                item = _context.Orders.FirstOrDefault(o => o.OrderId == orderId && o.ProductId == productId);
 
                 // Check if no order item was found for order id and product id
                 if (item == null)
