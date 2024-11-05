@@ -123,8 +123,8 @@ namespace ST10361554_CLDV6212_POE_Part_3_Functions
             }
         }
 
-        [Function(nameof(GetUserByEmailAsync))]
-        public IActionResult GetUserByEmailAsync([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequest req)
+        [Function(nameof(GetUserByEmail))]
+        public IActionResult GetUserByEmail([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequest req)
         {
             _logger.LogInformation("Get user by email function started");
 
@@ -197,8 +197,8 @@ namespace ST10361554_CLDV6212_POE_Part_3_Functions
             }
         }
 
-        [Function(nameof(GetUserByIdAsync))]
-        public IActionResult GetUserByIdAsync([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequest req)
+        [Function(nameof(GetUserById))]
+        public IActionResult GetUserById([HttpTrigger(AuthorizationLevel.Anonymous, "get")] HttpRequest req)
         {
             _logger.LogInformation("Get user by Id function started");
 
