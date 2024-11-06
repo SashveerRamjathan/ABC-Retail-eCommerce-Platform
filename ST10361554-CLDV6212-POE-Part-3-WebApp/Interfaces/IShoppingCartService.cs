@@ -9,10 +9,10 @@ namespace ST10361554_CLDV6212_POE_Part_3_WebApp.Interfaces
         public interface IShoppingCartService
         {
             // Add a product to the cart with specified quantity
-            Task<bool> AddToCart(string partitionKey, string rowKey, int quantity);
+            Task<bool> AddToCart(string productId, int quantity);
 
             // Edit the quantity of a product in the cart
-            Task<bool> EditQuantity(string partitionKey, string rowKey, int quantity);
+            Task<bool> EditQuantity(string productId, int quantity);
 
             // Clear all items from the cart
             Task<bool> ClearCart();
@@ -21,7 +21,7 @@ namespace ST10361554_CLDV6212_POE_Part_3_WebApp.Interfaces
             ImmutableList<Product> GetCartItems();
 
             // Remove a specific product from the cart
-            Task<bool> RemoveFromCart(string partitionKey, string rowKey);
+            Task<bool> RemoveFromCart(string productId);
         }
     }
 }
