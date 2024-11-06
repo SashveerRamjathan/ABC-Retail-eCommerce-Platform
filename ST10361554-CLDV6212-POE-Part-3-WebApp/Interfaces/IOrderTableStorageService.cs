@@ -9,7 +9,7 @@ namespace ST10361554_CLDV6212_POE_Part_3_WebApp.Interfaces
         Task<bool> CreateOrderAsync(List<Order> orderItems);
 
         // Get order details for a specific user and order
-        Task<List<Order>> GetOrderDetailsAsync(string userId, string partitionKey);
+        Task<List<Order>> GetOrderDetailsAsync(string userId, string orderId);
 
         // Get the order history for a specific user
         Task<Dictionary<string, List<Order>>> GetOrdersHistoryByUserIdAsync(string userId);
