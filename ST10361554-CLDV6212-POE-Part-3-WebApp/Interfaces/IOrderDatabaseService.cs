@@ -3,7 +3,7 @@
 namespace ST10361554_CLDV6212_POE_Part_3_WebApp.Interfaces
 {
     // Interface for order-related operations in table storage
-    public interface IOrderTableStorageService
+    public interface IOrderDatabaseService
     {
         // Create a new order with multiple items
         Task<bool> CreateOrderAsync(List<Order> orderItems);

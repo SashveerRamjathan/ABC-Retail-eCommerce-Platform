@@ -3,7 +3,7 @@
 namespace ST10361554_CLDV6212_POE_Part_3_WebApp.Interfaces
 {
     // Interface for account-related operations in table storage
-    public interface IAccountTableStorageService
+    public interface IAccountDatabaseService
     {
         // Create a new user in the table storage
         Task CreateUserAsync(User user);
