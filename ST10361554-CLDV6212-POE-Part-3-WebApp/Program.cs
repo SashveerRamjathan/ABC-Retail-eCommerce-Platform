@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using QuestPDF.Infrastructure;
 using QuestPDF;
 using ST10361554_CLDV6212_POE_Part_3_WebApp.Data;
+using ST10361554_CLDV6212_POE_Part_3_WebApp.Services;
+using ST10361554_CLDV6212_POE_Part_3_WebApp.Interfaces;
 
 namespace ST10361554_CLDV6212_POE_Part_3_WebApp
 {
@@ -26,6 +28,18 @@ namespace ST10361554_CLDV6212_POE_Part_3_WebApp
             // Register the DbContext
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(connectionString));
+
+            // add the account table storage service to the services collection
+            builder.Services.AddSingleton<IAccountDatabaseService>(sp =>
+            new AccountDatabaseStorageService(
+                sp.GetRequiredService<IHttpContextAccessor>(),
+                sp.GetRequiredService<IConfiguration>(),
+                sp.GetRequiredService<ILogger<AccountDatabaseStorageService>>(),
+                sp.GetRequiredService<IHttpClientFactory>()
+            ));
+
+            // add the category service to the services collection
+            builder.Services.AddScoped<ICategoryService, CategoryService>();
 
 
             var app = builder.Build();
