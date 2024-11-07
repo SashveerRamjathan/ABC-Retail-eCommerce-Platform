@@ -18,7 +18,7 @@ namespace ST10361554_CLDV6212_POE_Part_3_WebApp.ViewModels
         [Display(Name = "Product Price")]
         [Required(ErrorMessage = "Product price is required")]
         [Range(0.01, double.MaxValue, ErrorMessage = "Price must be greater than 0")]
-        public double ProductPrice { get; set; }
+        public decimal ProductPrice { get; set; }
 
         // Quantity of the product available
         [Display(Name = "Product Quantity")]
