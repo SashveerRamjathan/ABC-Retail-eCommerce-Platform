@@ -12,7 +12,7 @@
         public required string OrderStatus { get; set; }
 
         // Total amount for the order
-        public double GrandTotal { get; set; }
+        public decimal GrandTotal { get; set; }
 
         // Unique identifier for the customer who placed the order
         public required string CustomerID { get; set; }
