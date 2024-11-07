@@ -86,6 +86,15 @@ namespace ST10361554_CLDV6212_POE_Part_3_WebApp
                                     sp.GetRequiredService<IProductDatabaseService>(),
                                     sp.GetRequiredService<IQueueServiceFactory>()));
 
+            // add the invoice information service to the services collection
+            builder.Services.AddTransient<IInvoiceInformationService>(sp =>
+            new InvoiceInformationService(sp.GetRequiredService<ILogger<InvoiceInformationService>>(),
+                                          sp.GetRequiredService<IProductDatabaseService>(),
+                                          sp.GetRequiredService<IOrderDatabaseService>(),
+                                          sp.GetRequiredService<IAccountDatabaseService>(),
+                                          sp.GetRequiredService<IQueueServiceFactory>(),
+                                          sp.GetRequiredService<IWebHostEnvironment>()));
+
             // configure authentication
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
