@@ -1,0 +1,414 @@
+﻿@model ST10361554_CLDV6212_POE_Part_3_WebApp.ViewModels.ProductIndexViewModel
+
+@{
+	ViewData["Title"] = "Products";
+	var successMessage = ViewData["SuccessMessage"] as string;
+	var errorMessage = ViewData["ErrorMessage"] as string;
+}
+
+<style>
+	/* In-doc embedded style sheet for this view */
+	body {
+		background-color: #3b3f3f; /* Lightened Gunmetal background color */
+		color: #ffffff; /* White text color */
+	}
+
+	h1 {
+		color: #f46516; /* Orange Pantone for headings */
+	}
+
+	.alert-success {
+		background-color: #d4edda; /* Light green for success messages */
+		color: #155724; /* Dark green text color */
+	}
+
+	.alert-danger {
+		background-color: #f8d7da; /* Light red for error messages */
+		color: #721c24; /* Dark red text color */
+	}
+
+	.btn-primary {
+		background-color: #0a9d9b; /* Dark Cyan for primary buttons */
+		border-color: #0a9d9b; /* Dark Cyan border */
+	}
+
+		.btn-primary:hover {
+			background-color: #f46516; /* Orange Pantone on hover */
+			border-color: #f46516; /* Orange Pantone border on hover */
+		}
+
+	.form-control {
+		background-color: #1c1e21; /* Dark background for form controls */
+		color: #ffffff; /* White text color for form controls */
+	}
+
+	.card {
+		background-color: #1c1e21; /* Dark background for cards */
+		color: #ffffff; /* White text color for cards */
+	}
+
+	.card-header {
+		background-color: #0a9d9b; /* Dark Cyan background for card header */
+		color: #ffffff; /* White text color for card header */
+	}
+
+	.card:hover {
+		transform: translateY(-5px); /* Elevate the card slightly */
+		box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2), 0 0 8px rgba(244, 101, 22, 0.9); /* Subtle orange underglow effect */
+	}
+
+	.btn-info {
+		background-color: #0a9d9b; /* Dark Cyan for info buttons */
+		border-color: #0a9d9b; /* Dark Cyan border */
+	}
+
+		.btn-info:hover {
+			background-color: #f46516; /* Orange Pantone on hover */
+			border-color: #f46516; /* Orange Pantone border on hover */
+		}
+
+	.btn-warning {
+		background-color: #f0ad4e; /* Light Orange for warning buttons */
+		border-color: #f0ad4e; /* Light Orange border */
+	}
+
+		.btn-warning:hover {
+			background-color: #f46516; /* Orange Pantone on hover */
+			border-color: #f46516; /* Orange Pantone border on hover */
+		}
+
+	.btn-danger {
+		background-color: #d9534f; /* Red for danger buttons */
+		border-color: #d9534f; /* Red border */
+	}
+
+		.btn-danger:hover {
+			background-color: #f46516; /* Orange Pantone on hover */
+			border-color: #f46516; /* Orange Pantone border on hover */
+		}
+
+	/* Table styles */
+	.table th {
+		color: #f46516; /* Orange Pantone color for column headings */
+	}
+
+	.table td {
+		color: #ffffff; /* White text color for table cells */
+	}
+
+	.table tr {
+		border-bottom: 2px solid #0a9d9b; /* Cyan row separators */
+	}
+
+	/* Dropdown styles */
+	.form-control {
+		background-color: #1c1e21; /* Dark background for form controls */
+		color: #ffffff; /* White text color for form controls */
+		border: 1px solid #0a9d9b; /* Dark Cyan border */
+	}
+
+		.form-control:focus {
+			outline: none; /* Remove default focus outline */
+			box-shadow: 0 0 0 3px #f46516; /* Orange glow on focus */
+			border-color: #f46516; /* Orange border color on focus */
+		}
+
+		/* Dropdown options styling */
+		.form-control option {
+			background-color: #1c1e21; /* Dark background for dropdown options */
+			color: #ffffff; /* White text color for dropdown options */
+		}
+
+			.form-control option:hover {
+				background-color: #0a9d9b; /* Dark Cyan background on hover */
+				color: #ffffff; /* White text color on hover */
+			}
+
+	/* Switch styles */
+	.form-check-input {
+		cursor: pointer; /* Pointer cursor on hover */
+	}
+
+		.form-check-input:checked {
+			background-color: #f46516; /* Orange Pantone for checked state */
+			border-color: #f46516; /* Orange Pantone border for checked state */
+		}
+
+		.form-check-input:focus {
+			box-shadow: 0 0 0 3px #f46516; /* Orange glow for focus state */
+		}
+
+	.form-check-label {
+		color: #ffffff; /* White text color for switch label */
+	}
+
+	/* Style for the switch slider */
+	.form-check-input:checked ~ .form-check-label::before {
+		background-color: #f46516; /* Orange Pantone for checked switch slider */
+	}
+
+	.form-check-label::before {
+		background-color: #1c1e21; /* Dark background for the switch slider */
+		border: 1px solid #0a9d9b; /* Dark Cyan border for switch slider */
+	}
+
+	/* Disabled Card Styles */
+	.card.disabled {
+		background-color: #3e3e3e; /* Grey background to indicate disabled state */
+		color: #a0a0a0; /* Light grey text color */
+		cursor: not-allowed; /* Change cursor to indicate that the card is not interactive */
+		opacity: 0.6; /* Make the card less opaque to indicate it's disabled */
+	}
+
+		.card.disabled .btn {
+			cursor: not-allowed; /* Change cursor for buttons to not-allowed */
+		}
+</style>
+
+<h1>Products</h1>
+
+@if (!string.IsNullOrEmpty(successMessage))
+{
+	<div class="alert alert-success mb-2" role="alert">
+		@successMessage
+	</div>
+}
+
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+	<div class="alert alert-danger mb-2" role="alert">
+		@errorMessage
+	</div>
+}
+
+@if (User.IsInRole("Admin"))
+{
+	<br />
+
+	<div>
+		<a asp-controller="Product" asp-action="Create" class="btn btn-primary">Create New Product</a>
+	</div>
+
+	<br />
+}
+
+<form method="get" asp-action="Index">
+	<div class="form-group">
+		<label for="category">Category:</label>
+		<select id="category" name="category" class="form-control">
+			<option value="">All</option>
+			@if (Model.Categories != null && Model.Categories.Count > 0)
+			{
+				foreach (var category in Model.Categories)
+				{
+					<option value="@category.Value">@category.Text</option>
+				}
+			}
+		</select>
+	</div>
+	<br />
+	<button type="submit" class="btn btn-primary">Filter</button>
+</form>
+
+<br />
+
+@if (User.IsInRole("Admin"))
+{
+	@if (Model.Products.Count > 0)
+	{
+		<div class="form-check form-switch mb-3">
+			<input class="form-check-input" type="checkbox" id="viewToggleSwitch" onchange="toggleView()">
+			<label class="form-check-label" for="viewToggleSwitch">
+				Table View
+			</label>
+		</div>
+
+
+		<div id="tableView" class="d-none">
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Description</th>
+						<th>Category</th>
+						<th>Price</th>
+						<th>Quantity</th>
+						<th>Picture</th>
+						<th>Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var product in Model.Products)
+					{
+						<tr>
+							<td>@product.ProductName</td>
+							<td>@product.ProductDescription</td>
+							<td>@product.Category</td>
+							<td>@product.ProductPrice.ToString("C")</td>
+							<td>@product.ProductQuantity</td>
+							<td>
+								@if (!string.IsNullOrEmpty(product.Base64ProductImage))
+								{
+									<img src="data:image;base64,@product.Base64ProductImage" alt="Product Image" width="120" height="120" />
+								}
+								else
+								{
+									<p>No image available</p>
+								}
+							</td>
+							<td>
+								<div class="d-flex justify-content-between mt-3">
+									<a asp-action="Details" asp-route-partitionKey="@product.Category" asp-route-rowKey="@product.ProductId" class="btn btn-info">Details</a>
+									<a asp-action="Edit" asp-route-partitionKey="@product.Category" asp-route-rowKey="@product.ProductId" class="btn btn-warning mx-2">Edit</a>
+									<a asp-action="Delete" asp-route-partitionKey="@product.Category" asp-route-rowKey="@product.ProductId" class="btn btn-danger">Delete</a>
+								</div>
+
+							</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
+
+		<div id="cardView" class="row">
+			@foreach (var product in Model.Products)
+			{
+				<div class="col-md-4 mb-4">
+					<div class="card h-100">
+						<div class="card-header text-center">
+							@product.ProductName
+						</div>
+						<div class="card-body d-flex flex-column">
+							@if (!string.IsNullOrEmpty(product.Base64ProductImage))
+							{
+								<img src="data:image/jpeg;base64,@product.Base64ProductImage" alt="Product Image" class="card-img-top" style="height: 200px; width: 100%; object-fit: contain;" />
+							}
+							else
+							{
+								<p class="text-center">No image available</p>
+							}
+
+							<hr>
+							<h5 class="card-title">Description</h5>
+							<p class="card-text flex-grow-1">@product.ProductDescription</p>
+
+							<hr>
+							<h6>Available Quantity: @product.ProductQuantity</h6>
+
+							<hr>
+							<h6>Price: @product.ProductPrice.ToString("C")</h6>
+
+							<hr>
+							<p class="category-label">Category: @product.Category</p>
+
+							<hr>
+							<a asp-action="Details" asp-route-partitionKey="@product.Category" asp-route-rowKey="@product.ProductId" class="btn btn-info btn-sm">Details</a>
+							<br />
+							<a asp-action="Edit" asp-route-partitionKey="@product.Category" asp-route-rowKey="@product.ProductId" class="btn btn-warning btn-sm mx-2">Edit</a>
+							<br />
+							<a asp-action="Delete" asp-route-partitionKey="@product.Category" asp-route-rowKey="@product.ProductId" class="btn btn-danger btn-sm">Delete</a>
+						</div>
+					</div>
+				</div>
+			}
+		</div>
+	}
+	else
+	{
+		<p>No products in inventory</p>
+	}
+}
+
+@if (User.IsInRole("Customer") || !User.Identity!.IsAuthenticated)
+{
+	@if (Model.Products.Count > 0)
+	{
+		<div class="row">
+			@foreach (var product in Model.Products)
+			{
+				<div class="col-md-4 mb-4">
+					<div class="card h-100 @(product.ProductQuantity == 0 ? "disabled" : "")">
+						<div class="card-header text-center">
+							@product.ProductName
+						</div>
+						<div class="card-body d-flex flex-column">
+							@if (!string.IsNullOrEmpty(product.Base64ProductImage))
+							{
+								<img src="data:image/jpeg;base64,@product.Base64ProductImage" alt="Product Image" class="card-img-top" style="height: 200px; width: 100%; object-fit: contain;" />
+							}
+							else
+							{
+								<p class="text-center">No image available</p>
+							}
+
+							<hr>
+							<h5 class="card-title">Description</h5>
+							<p class="card-text flex-grow-1">@product.ProductDescription</p>
+
+							<hr>
+							<h6>Available Quantity: @product.ProductQuantity</h6>
+
+							<hr>
+							<h6>Price: @product.ProductPrice.ToString("C")</h6>
+
+							<hr>
+							<p class="category-label"><strong>Category:</strong> @product.Category</p>
+
+							<hr />
+							@if (User.Identity!.IsAuthenticated && product.ProductQuantity > 0)
+							{
+								<a asp-action="Details" asp-route-partitionKey="@product.Category" asp-route-rowKey="@product.ProductId" class="btn btn-info">Details</a>
+
+								@if (User.IsInRole("Customer"))
+								{
+									<br />
+									@if (product.ProductQuantity > 0)
+									{
+										<a asp-controller="ShoppingCart" asp-action="AddToCart" asp-route-partitionKey="@product.Category" asp-route-rowKey="@product.ProductId" class="btn btn-warning">Add To Cart</a>
+									}
+								}
+
+							}
+						</div>
+					</div>
+				</div>
+
+
+			}
+
+		</div>
+	}
+	else
+	{
+		<p>No products in inventory</p>
+	}
+}
+
+@section Scripts
+{
+	<script>
+		function toggleView() {
+			var tableView = document.getElementById('tableView');
+			var cardView = document.getElementById('cardView');
+			var isChecked = document.getElementById('viewToggleSwitch').checked;
+			var viewLabel = document.querySelector('.form-check-label'); // Get the label element
+
+			if (isChecked) {
+				tableView.classList.add('d-none');
+				cardView.classList.remove('d-none');
+				viewLabel.textContent = 'Card View'; // Update label to 'Card View'
+			} else {
+				tableView.classList.remove('d-none');
+				cardView.classList.add('d-none');
+				viewLabel.textContent = 'Table View'; // Update label to 'Table View'
+			}
+		}
+
+		// Initialize the default view (Table View) on page load
+		document.addEventListener('DOMContentLoaded', function () {
+			document.getElementById('viewToggleSwitch').checked = false; // Ensure switch is unchecked on load
+			toggleView(); // Set the correct view and label
+		});
+	</script>
+
+}

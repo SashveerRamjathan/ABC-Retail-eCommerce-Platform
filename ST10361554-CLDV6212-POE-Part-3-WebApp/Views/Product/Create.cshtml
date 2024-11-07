@@ -1,0 +1,129 @@
+﻿@model ST10361554_CLDV6212_POE_Part_3_WebApp.ViewModels.CreateProductViewModel
+
+@{
+	ViewData["Title"] = "Create Product";
+}
+
+<style>
+	/* In-doc embedded style sheet for this view */
+	body {
+		background-color: #3b3f3f; /* Lightened Gunmetal background color */
+		color: #ffffff; /* White text color */
+	}
+
+	h1 {
+		color: #f46516; /* Orange Pantone for headings */
+	}
+
+	.form-group {
+		margin-bottom: 1rem; /* Space between form groups */
+	}
+
+		.form-group label {
+			color: #0a9d9b; /* Orange Pantone for labels */
+		}
+
+	.form-control:focus {
+		outline: none; /* Remove default focus outline */
+		box-shadow: 0 0 0 1px #f46516; /* Subtle orange glow on focus */
+		border-color: #f46516; /* Orange border color on focus */
+	}
+
+	.text-danger {
+		color: #f8d7da; /* Light red for validation error messages */
+	}
+
+	.btn-primary {
+		background-color: #0a9d9b; /* Dark Cyan for primary buttons */
+		border-color: #0a9d9b; /* Dark Cyan border */
+	}
+
+		.btn-primary:hover {
+			background-color: #f46516; /* Orange Pantone on hover */
+			border-color: #f46516; /* Orange Pantone border on hover */
+		}
+
+	.btn-secondary {
+		background-color: #272b2f; /* Gunmetal for secondary buttons */
+		border-color: #272b2f; /* Gunmetal border */
+	}
+
+		.btn-secondary:hover {
+			background-color: #0a9d9b; /* Dark Cyan on hover */
+			border-color: #0a9d9b; /* Dark Cyan border on hover */
+		}
+
+	/* Additional styles for file input */
+	.form-control[type="file"] {
+		padding: 0.375rem 0.75rem; /* Adjust padding to match other form controls */
+		background-color: #e0e0e0; /* Very light grey background for file input */
+		color: #000000; /* Black text color for file input */
+		border: 1px solid #0a9d9b; /* Dark Cyan border for file input */
+	}
+
+		.form-control[type="file"]:focus {
+			box-shadow: 0 0 0 3px #f46516; /* Orange glow on focus */
+			border-color: #f46516; /* Orange border color on focus */
+		}
+
+	/* Adjustments for textarea */
+	textarea.form-control {
+		min-height: 150px; /* Ensure textarea is tall enough */
+	}
+</style>
+
+
+<h1>Create Product</h1>
+
+<br />
+
+<form asp-action="Create" method="post" enctype="multipart/form-data">
+	<div class="form-group">
+		<label asp-for="ProductName"></label>
+		<input asp-for="ProductName" class="form-control" />
+		<span asp-validation-for="ProductName" class="text-danger"></span>
+	</div>
+	<div class="form-group">
+		<label asp-for="ProductDescription"></label>
+		<textarea asp-for="ProductDescription" class="form-control"></textarea>
+		<span asp-validation-for="ProductDescription" class="text-danger"></span>
+	</div>
+	<div class="form-group">
+		<label asp-for="ProductPrice"></label>
+		<input asp-for="ProductPrice" class="form-control" />
+		<span asp-validation-for="ProductPrice" class="text-danger"></span>
+	</div>
+	<div class="form-group">
+		<label asp-for="ProductQuantity"></label>
+		<input asp-for="ProductQuantity" min="0" class="form-control" />
+		<span asp-validation-for="ProductQuantity" class="text-danger"></span>
+	</div>
+	<div class="form-group">
+		<label asp-for="Category"></label>
+		<select asp-for="Category" class="form-control">
+			@foreach (var category in ViewBag.Categories as List<SelectListItem>)
+			{
+				<option value="@category.Value">@category.Text</option>
+			}
+		</select>
+		<span asp-validation-for="Category" class="text-danger"></span>
+	</div>
+	<div class="form-group">
+		<label asp-for="Base64ProductImage">Upload Product Image</label>
+		<input asp-for="Base64ProductImage" type="file" class="form-control" accept=".jpg,.jpeg,.png" />
+		<span asp-validation-for="Base64ProductImage" class="text-danger"></span>
+	</div>
+	<br />
+	<button type="submit" class="btn btn-primary">Create</button>
+</form>
+
+<br />
+<a asp-action="Index" class="btn btn-secondary">Back to Products</a>
+
+
+@section Scripts {
+	@{
+		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+	}
+}
+

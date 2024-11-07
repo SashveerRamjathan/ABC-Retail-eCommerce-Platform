@@ -1,0 +1,143 @@
+﻿@model ST10361554_CLDV6212_POE_Part_3_WebApp.ViewModels.ProductViewModel
+
+@{
+    ViewData["Title"] = "Delete Product";
+}
+
+<style>
+    /* In-doc embedded style sheet for this view */
+    body {
+        background-color: #3b3f3f; /* Lightened Gunmetal background color */
+        color: #ffffff; /* White text color */
+        margin: 0;
+        padding: 0;
+    }
+
+    h1 {
+        color: #f46516; /* Orange Pantone for headings */
+        margin-bottom: 1rem; /* Space below heading */
+    }
+
+    h4 {
+        color: #ffffff; /* White text color for subheadings */
+        margin-bottom: 1rem; /* Space below subheading */
+    }
+
+    dl.row {
+        background-color: #3b3f3f; /* Dark background for description list */
+        padding: 1rem; /* Padding inside the description list */
+        border-radius: 5px; /* Rounded corners for description list */
+        margin-bottom: 1rem; /* Space below description list */
+    }
+
+    dt {
+        color: #0a9d9b; /* Dark Cyan for description terms */
+        font-weight: bold; /* Bold text for description terms */
+    }
+
+    dd {
+        color: #ffffff; /* White text color for description details */
+        margin-bottom: 1rem; /* Space between description details */
+    }
+
+    img {
+        max-width: 100%; /* Ensure image does not exceed container width */
+        height: auto; /* Maintain aspect ratio */
+        border-radius: 5px; /* Rounded corners for images */
+    }
+
+    .btn-danger {
+        background-color: #d9534f; /* Red for danger buttons */
+        border-color: #d9534f; /* Red border */
+        color: #ffffff; /* White text color for danger buttons */
+    }
+
+        .btn-danger:hover {
+            background-color: #f46516; /* Orange Pantone on hover */
+            border-color: #f46516; /* Orange Pantone border on hover */
+        }
+
+    .btn-secondary {
+        background-color: #272b2f; /* Gunmetal for secondary buttons */
+        border-color: #272b2f; /* Gunmetal border */
+        color: #ffffff; /* White text color for secondary buttons */
+    }
+
+        .btn-secondary:hover {
+            background-color: #0a9d9b; /* Dark Cyan on hover */
+            border-color: #0a9d9b; /* Dark Cyan border on hover */
+        }
+
+    /* Style for the form container */
+    form {
+        margin-top: 1rem; /* Space above form */
+    }
+
+    /* Style for no image message */
+    .no-image {
+        color: #f8d7da; /* Light red for no image message */
+        font-style: italic; /* Italicize no image message */
+    }
+</style>
+
+
+<h1>Delete Product</h1>
+
+<div>
+    <h4>Are you sure you want to delete this product?</h4>
+    <div>
+        <h4>@Model.ProductName</h4>
+        <dl class="row">
+            <dt class="col-sm-2">
+                Description
+            </dt>
+            <dd class="col-sm-10">
+                @Model.ProductDescription
+            </dd>
+            <dt class="col-sm-2">
+                Price
+            </dt>
+            <dd class="col-sm-10">
+                @Model.ProductPrice.ToString("C")
+            </dd>
+            <dt class="col-sm-2">
+                Quantity
+            </dt>
+            <dd class="col-sm-10">
+                @Model.ProductQuantity
+            </dd>
+            @if (!string.IsNullOrEmpty(Model.Base64ProductImage))
+            {
+                <dt class="col-sm-2">
+                    Image
+                </dt>
+                <dd class="col-sm-10">
+                    <img src="data:image;base64,@Model.Base64ProductImage" alt="Product Image" style="max-width: 200px;" />
+                </dd>
+            }
+            else
+            {
+                <dt class="col-sm-2">
+                    Image
+                </dt>
+                <dd class="col-sm-10">
+                    No Image Found
+                </dd>
+            }
+        </dl>
+    </div>
+</div>
+
+<form asp-action="DeleteConfirmed" method="post">
+    <input type="hidden" name="partitionKey" value="@Model.Category" />
+    <input type="hidden" name="rowKey" value="@Model.ProductId" />
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
+<br />
+<br />
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
