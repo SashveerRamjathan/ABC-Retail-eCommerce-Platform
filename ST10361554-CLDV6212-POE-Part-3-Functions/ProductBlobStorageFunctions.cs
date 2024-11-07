@@ -277,7 +277,7 @@ namespace ST10361554_CLDV6212_POE_Part_3_Functions
             // Extract category and rowKey from form data or query string
             string? category = req.Form["category"];
 
-            string? rowKey = req.Form["rowKey"];
+            string? productId = req.Form["productId"];
 
             // Validate category and rowKey
             if (string.IsNullOrEmpty(category))
@@ -286,10 +286,10 @@ namespace ST10361554_CLDV6212_POE_Part_3_Functions
                 return new BadRequestObjectResult("Please pass a category in the form data.");
             }
 
-            if (string.IsNullOrEmpty(rowKey))
+            if (string.IsNullOrEmpty(productId))
             {
-                _logger.LogWarning("RowKey (image name) is missing in the form data.");
-                return new BadRequestObjectResult("Please pass a rowKey in the form data.");
+                _logger.LogWarning("Product Id (image name) is missing in the form data.");
+                return new BadRequestObjectResult("Please pass a product Id in the form data.");
             }
 
             // Retrieve the uploaded file
@@ -302,7 +302,7 @@ namespace ST10361554_CLDV6212_POE_Part_3_Functions
                 return new BadRequestObjectResult("Please pass a valid image file in the form data.");
             }
 
-            _logger.LogInformation($"Starting upload of image {rowKey} to category {category}");
+            _logger.LogInformation($"Starting upload of image {productId} to category {category}");
 
             #endregion
 
@@ -320,7 +320,7 @@ namespace ST10361554_CLDV6212_POE_Part_3_Functions
                 }
 
                 // Get the blob client for the image using rowKey as blob name
-                var blobClient = blobContainerClient.GetBlobClient(rowKey);
+                var blobClient = blobContainerClient.GetBlobClient(productId);
 
                 // Upload the file to blob storage
                 var response = await blobClient.UploadAsync(file.OpenReadStream(), true);
@@ -328,20 +328,20 @@ namespace ST10361554_CLDV6212_POE_Part_3_Functions
                 // Check if the upload was successful
                 if (response.GetRawResponse().Status == 201)  // Status 201 = Created
                 {
-                    _logger.LogInformation($"Blob {rowKey} uploaded successfully");
-                    return new OkObjectResult($"Blob {rowKey} uploaded successfully");
+                    _logger.LogInformation($"Blob {productId} uploaded successfully");
+                    return new OkObjectResult($"Blob {productId} uploaded successfully");
                 }
                 else
                 {
-                    _logger.LogInformation($"Blob {rowKey} could not be uploaded.");
-                    return new BadRequestObjectResult($"Blob {rowKey} could not be uploaded.");
+                    _logger.LogInformation($"Blob {productId} could not be uploaded.");
+                    return new BadRequestObjectResult($"Blob {productId} could not be uploaded.");
                 }
 
                 #endregion
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Error uploading blob {rowKey} to category {category}: {ex.Message}");
+                _logger.LogError(ex, $"Error uploading blob {productId} to category {category}: {ex.Message}");
                 return new BadRequestObjectResult($"Error uploading image: {ex.Message}");
             }
         }
