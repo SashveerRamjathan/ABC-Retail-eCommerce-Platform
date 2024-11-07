@@ -21,5 +21,7 @@ namespace ST10361554_CLDV6212_POE_Part_3_Functions.Models
         public decimal TotalItemPrice { get; set; } // total price of the ordered quantity of items
 
         public string ItemStatus { get; set; } // status of the order
+
+        public DateTime OrderDate { get; set; }
     }
 }
