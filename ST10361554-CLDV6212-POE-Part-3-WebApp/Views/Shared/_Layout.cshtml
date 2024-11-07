@@ -3,16 +3,61 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - ST10361554_CLDV6212_POE_Part_3_WebApp</title>
+    <title>@ViewData["Title"] - ABC Retail</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ST10361554_CLDV6212_POE_Part_3_WebApp.styles.css" asp-append-version="true" />
+    <link rel="icon" href="~/Logo ABC Retail.ico" />
+
+    <style>
+        /* Navbar and Footer Hover Effects */
+        .navbar-nav .nav-link, .btn-link, .footer a {
+            transition: color 0.3s ease, text-shadow 0.3s ease;
+            color: #f46516; /* Set default color to Orange Pantone */
+        }
+
+            /* Hover effect: Invert color from orange to cyan and add glow */
+            .navbar-nav .nav-link:hover, .btn-link:hover, .footer a:hover {
+                color: #0a9d9b; /* Dark Cyan */
+                text-shadow: 0 0 5px rgba(244, 101, 22, 0.75); /* Orange glow */
+            }
+
+        /* Navbar brand styling */
+        .navbar-brand {
+            color: #0a9d9b !important; /* Dark Cyan for ABC Retail brand */
+            font-weight: bold;
+            transition: color 0.3s ease, text-shadow 0.3s ease;
+        }
+
+            /* Hover effect for navbar brand */
+            .navbar-brand:hover {
+                color: #f46516 !important; /* Orange Pantone */
+                text-shadow: 0 0 5px rgba(10, 157, 155, 0.75); /* Dark Cyan glow */
+            }
+
+        /* Footer styling */
+        .footer {
+            background-color: #272b2f; /* Gunmetal */
+            color: #f46516; /* Orange Pantone */
+        }
+
+            .footer a {
+                color: #f46516; /* Orange Pantone */
+                transition: color 0.3s ease, text-shadow 0.3s ease;
+            }
+
+                .footer a:hover {
+                    color: #0a9d9b; /* Dark Cyan */
+                    text-shadow: 0 0 5px rgba(244, 101, 22, 0.75); /* Orange glow */
+                }
+    </style>
+
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm box-shadow mb-3" style="background-color: #272b2f;">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ST10361554_CLDV6212_POE_Part_3_WebApp</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ABC Retail</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -20,11 +65,48 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link " asp-area="" asp-controller="Product" asp-action="Index">Products</a>
                         </li>
+                        @if (User.Identity!.IsAuthenticated && User.IsInRole("Customer"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link " asp-area="" asp-controller="ShoppingCart" asp-action="Index">Cart</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link " asp-area="" asp-controller="CustomerOrders" asp-action="Index">Order History</a>
+                            </li>
+                        }
+                        @if (User.Identity!.IsAuthenticated && User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link " asp-area="" asp-controller="AdminOrders" asp-action="Index">Order History</a>
+                            </li>
+                        }
+                    </ul>
+                    <ul class="navbar-nav">
+                        @if (User.Identity!.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <span class="nav-link ">Hello, @User.Identity.Name</span>
+                            </li>
+                            <li class="nav-item">
+                                <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
+                                    <button type="submit" class="btn btn-link nav-link">Logout</button>
+                                </form>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link " asp-area="" asp-controller="Account" asp-action="Register">Register</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link " asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
@@ -35,10 +117,11 @@
             @RenderBody()
         </main>
     </div>
-
-    <footer class="border-top footer text-muted">
+    <br />
+    <br />
+    <footer class="footer text-muted box-shadow mb-3" style="background-color: #272b2f;">
         <div class="container">
-            &copy; 2024 - ST10361554_CLDV6212_POE_Part_3_WebApp - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2024 - ABC Retail - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
