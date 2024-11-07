@@ -1,0 +1,94 @@
+﻿@model ST10361554_CLDV6212_POE_Part_3_WebApp.ViewModels.CartItemViewModel
+
+@{
+    ViewData["Title"] = "Edit Quantity";
+    var errorMessage = ViewData["ErrorMessage"] as string;
+}
+
+<style>
+    /* General Styling */
+    body {
+        background-color: #3b3f3f; /* Lightened Gunmetal background color */
+        color: #ffffff; /* White text color */
+    }
+
+    h1 {
+        color: #f46516; /* Orange Pantone for headings */
+    }
+
+    /* Alerts */
+    .alert-danger {
+        background-color: #f8d7da; /* Light red for error messages */
+        color: #721c24; /* Dark red text color */
+    }
+
+    /* Buttons */
+    .btn-primary {
+        background-color: #0a9d9b; /* Dark Cyan for primary buttons */
+        border-color: #0a9d9b; /* Dark Cyan border */
+    }
+
+        .btn-primary:hover {
+            background-color: #f46516; /* Orange Pantone on hover */
+            border-color: #f46516; /* Orange Pantone border on hover */
+        }
+
+    .btn-secondary {
+        background-color: #f46516; /* Orange Pantone for secondary buttons */
+        border-color: #f46516; /* Orange Pantone border */
+    }
+
+        .btn-secondary:hover {
+            background-color: #0a9d9b; /* Dark Cyan on hover */
+            border-color: #0a9d9b; /* Dark Cyan border on hover */
+        }
+
+    /* Form Controls */
+    .form-control {
+        background-color: #1c1e21; /* Dark background for form controls */
+        color: #ffffff; /* White text color for form controls */
+        border: 1px solid #0a9d9b; /* Dark Cyan border */
+    }
+
+        .form-control:focus {
+            outline: none; /* Remove default focus outline */
+            box-shadow: 0 0 0 3px #f46516; /* Orange glow on focus */
+            border-color: #f46516; /* Orange border color on focus */
+        }
+
+</style>
+
+<h1>@ViewData["Title"]</h1>
+
+<!-- Display error message -->
+@if (errorMessage != null)
+{
+    <div class="alert alert-danger">
+        @errorMessage
+    </div>
+}
+
+<!-- Product Details -->
+<div>
+    <h3>@Model.Product.Name</h3>
+    <p>Current Quantity: @Model.Quantity</p>
+    <p>Price: @Model.Product.Price.ToString("C")</p>
+</div>
+
+<!-- Quantity Input and Actions -->
+<form asp-action="EditQuantity" method="post">
+    <div class="form-group">
+        <label for="Quantity">Quantity</label>
+        <input type="number" name="Quantity" id="Quantity" value="@Model.Quantity" min="0" class="form-control" />
+        <input type="hidden" name="Product.PartitionKey" value="@Model.Product.Category" />
+        <input type="hidden" name="Product.RowKey" value="@Model.Product.Id" />
+        <input type="hidden" name="Product.ProductPrice" value="@Model.Product.Price" />
+        <input type="hidden" name="Product.ProductName" value="@Model.Product.Name" />
+        <input type="hidden" name="Product.ProductDescription" value="@Model.Product.Description" />
+    </div>
+
+    <br />
+
+    <button type="submit" class="btn btn-primary">Update Quantity</button>
+    <a asp-action="Index" class="btn btn-secondary">Back to Cart</a>
+</form>

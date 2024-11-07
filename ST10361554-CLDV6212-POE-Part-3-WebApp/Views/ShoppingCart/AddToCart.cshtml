@@ -1,0 +1,116 @@
+﻿@model ST10361554_CLDV6212_POE_Part_3_WebApp.ViewModels.CartItemViewModel
+
+@{
+    ViewData["Title"] = "Add to Cart";
+    var errorMessage = ViewData["ErrorMessage"] as string;
+}
+
+<!-- In-doc embedded style sheet for this view -->
+<style>
+    body {
+        background-color: #3b3f3f; /* Lightened Gunmetal background color */
+        color: #ffffff; /* White text color */
+    }
+
+    h1, h3 {
+        color: #f46516; /* Orange Pantone for headings */
+    }
+
+    .alert-danger {
+        background-color: #f8d7da; /* Light red for error messages */
+        color: #721c24; /* Dark red text color */
+        border: 1px solid #f5c6cb; /* Light red border */
+        padding: 15px;
+        border-radius: 5px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-control {
+        background-color: #1c1e21; /* Dark background for form controls */
+        color: #ffffff; /* White text color for form controls */
+        border: 1px solid #0a9d9b; /* Dark Cyan border */
+    }
+
+        .form-control:focus {
+            outline: none; /* Remove default focus outline */
+            box-shadow: 0 0 0 3px #f46516; /* Orange glow on focus */
+            border-color: #f46516; /* Orange border color on focus */
+        }
+
+    .btn-primary {
+        background-color: #0a9d9b; /* Dark Cyan for primary buttons */
+        border-color: #0a9d9b; /* Dark Cyan border */
+    }
+
+        .btn-primary:hover {
+            background-color: #f46516; /* Orange Pantone on hover */
+            border-color: #f46516; /* Orange Pantone border on hover */
+        }
+
+    .btn-secondary {
+        background-color: #282c2b; /* Jet for secondary buttons */
+        border-color: #282c2b; /* Jet border */
+    }
+
+        .btn-secondary:hover {
+            background-color: #f46516; /* Orange Pantone on hover */
+            border-color: #f46516; /* Orange Pantone border on hover */
+        }
+
+    .container {
+        max-width: 800px;
+        margin: 20px auto;
+    }
+
+    .product-details {
+        background-color: #3b3f3f; /* Lightened Gunmetal background color */
+        padding: 20px;
+        border-radius: 8px;
+    }
+
+        .product-details p {
+            margin: 10px 0;
+        }
+
+
+</style>
+
+<div class="container">
+    <h1>@ViewData["Title"]</h1>
+
+    <!-- Display error message -->
+    @if (errorMessage != null)
+    {
+        <div class="alert alert-danger">
+            @errorMessage
+        </div>
+    }
+
+    <!-- Product Details -->
+    <div class="product-details">
+        <h3>@Model.Product.Name</h3>
+        <p>Price: @Model.Product.Price.ToString("C")</p>
+        <p>Description: @Model.Product.Description</p>
+    </div>
+
+    <!-- Quantity Input and Actions -->
+    <form asp-action="AddToCart" method="post">
+        <div class="form-group">
+            <label for="Quantity">Quantity</label>
+            <input type="number" name="Quantity" id="Quantity" value="@Model.Quantity" min="1" class="form-control" />
+            <input type="hidden" name="Product.PartitionKey" value="@Model.Product.Category" />
+            <input type="hidden" name="Product.RowKey" value="@Model.Product.Id" />
+            <input type="hidden" name="Product.ProductPrice" value="@Model.Product.Price" />
+            <input type="hidden" name="Product.ProductName" value="@Model.Product.Name" />
+            <input type="hidden" name="Product.ProductDescription" value="@Model.Product.Description" />
+        </div>
+        <br />
+        <div class="d-flex justify-content-between">
+            <button type="submit" class="btn btn-primary">Add to Cart</button>
+            <a asp-controller="Product" asp-action="Index" class="btn btn-secondary">Back to Products</a>
+        </div>
+    </form>
+</div>

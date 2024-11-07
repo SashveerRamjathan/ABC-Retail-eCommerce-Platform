@@ -1,0 +1,170 @@
+﻿@model ST10361554_CLDV6212_POE_Part_3_WebApp.ViewModels.CartIndexViewModel
+
+@{
+    ViewData["Title"] = "Shopping Cart";
+    var successMessage = ViewData["SuccessMessage"] as string;
+    var errorMessage = ViewData["ErrorMessage"] as string;
+}
+
+<style>
+
+    /* General Styling */
+    body {
+        background-color: #3b3f3f; /* Lightened Gunmetal background color */
+        color: #ffffff; /* White text color */
+    }
+
+    h1 {
+        color: #f46516; /* Orange Pantone for headings */
+    }
+
+    /* Alerts */
+    .alert-success {
+        background-color: #d4edda; /* Light green for success messages */
+        color: #155724; /* Dark green text color */
+    }
+
+    .alert-danger {
+        background-color: #f8d7da; /* Light red for error messages */
+        color: #721c24; /* Dark red text color */
+    }
+
+    /* Buttons */
+    .btn-primary {
+        background-color: #0a9d9b; /* Dark Cyan for primary buttons */
+        border-color: #0a9d9b; /* Dark Cyan border */
+    }
+
+        .btn-primary:hover {
+            background-color: #f46516; /* Orange Pantone on hover */
+            border-color: #f46516; /* Orange Pantone border on hover */
+        }
+
+    .btn-secondary {
+        background-color: #f46516; /* Orange Pantone for secondary buttons */
+        border-color: #f46516; /* Orange Pantone border */
+    }
+
+        .btn-secondary:hover {
+            background-color: #0a9d9b; /* Dark Cyan on hover */
+            border-color: #0a9d9b; /* Dark Cyan border on hover */
+        }
+
+    .btn-warning {
+        background-color: #f0ad4e; /* Light Orange for warning buttons */
+        border-color: #f0ad4e; /* Light Orange border */
+    }
+
+        .btn-warning:hover {
+            background-color: #f46516; /* Orange Pantone on hover */
+            border-color: #f46516; /* Orange Pantone border on hover */
+        }
+
+    .btn-danger {
+        background-color: #d9534f; /* Red for danger buttons */
+        border-color: #d9534f; /* Red border */
+    }
+
+        .btn-danger:hover {
+            background-color: #f46516; /* Orange Pantone on hover */
+            border-color: #f46516; /* Orange Pantone border on hover */
+        }
+
+    /* Table styles */
+    .table th {
+        color: #f46516; /* Orange Pantone color for column headings */
+    }
+
+    .table td {
+        color: #ffffff; /* White text color for table cells */
+    }
+
+    .table tr {
+        border-bottom: 2px solid #0a9d9b; /* Dark Cyan row separators */
+    }
+
+    .table tfoot th {
+        color: #ffffff; /* White text */
+    }
+
+
+</style>
+
+<h1>@ViewData["Title"]</h1>
+<br />
+<!-- Display success or error messages -->
+@if (successMessage != null)
+{
+    <div class="alert alert-success">
+        @successMessage
+    </div>
+}
+
+@if (errorMessage != null)
+{
+    <div class="alert alert-danger">
+        @errorMessage
+    </div>
+}
+
+<!-- Cart Items Table -->
+@if (Model.CartItems!.Count > 0)
+{
+    <!-- Button to clear the cart -->
+    <form asp-action="ClearCart" method="post">
+        <button type="submit" class="btn btn-danger">Clear Cart</button>
+    </form>
+
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Quantity</th>
+                <th>Unit Price</th>
+                <th>Subtotal</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.CartItems)
+            {
+                <tr>
+                    <td>@item.Product.Name</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.Product.Price.ToString("C")</td>
+                    <td>@item.TotalPrice.ToString("C")</td>
+                    <td>
+                        <!-- Edit Button -->
+                        <a asp-action="EditQuantity" asp-route-partitionKey="@item.Product.Category" asp-route-rowKey="@item.Product.Id" asp-route-quantity="@item.Quantity" class="btn btn-warning">Edit</a>
+
+                        <!-- Delete Button -->
+                        <form asp-action="RemoveFromCart" asp-route-partitionKey="@item.Product.Category" asp-route-rowKey="@item.Product.Id" method="post" style="display:inline;">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <th colspan="2">Total:</th>
+                <th>@Model.GrandTotal.ToString("C")</th>
+                <th></th>
+            </tr>
+        </tfoot>
+    </table>
+    <br />
+    <!-- Checkout Button -->
+    <form asp-action="Checkout" method="post">
+        <button type="submit" class="btn btn-primary">Checkout</button>
+    </form>
+    <br />
+    <a asp-controller="Product" asp-action="Index" class="btn btn-secondary">Back to Products</a>
+}
+else
+{
+    <div>Your cart is empty.</div>
+    <br />
+    <a asp-controller="Product" asp-action="Index" class="btn btn-secondary">Shop Now</a>
+}
