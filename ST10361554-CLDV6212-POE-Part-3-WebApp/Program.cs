@@ -73,6 +73,13 @@ namespace ST10361554_CLDV6212_POE_Part_3_WebApp
                     sp.GetRequiredService<ILogger<ProductDatabaseStorageService>>(),
                     sp.GetRequiredService<IHttpClientFactory>()));
 
+            // add the order table storage service to the services collection
+            builder.Services.AddTransient<IOrderDatabaseService>(sp =>
+            new OrderDatabaseStorageService(
+                sp.GetRequiredService<ILogger<OrderDatabaseStorageService>>(),
+                sp.GetRequiredService<IConfiguration>(),
+                sp.GetRequiredService<IHttpClientFactory>()));
+
             // configure authentication
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
