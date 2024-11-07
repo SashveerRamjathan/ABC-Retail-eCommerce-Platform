@@ -1,0 +1,49 @@
+﻿@{
+    ViewData["Title"] = "Access Denied";
+}
+
+<style>
+    /* In-doc embedded style sheet for this view */
+    body {
+        background-color: #3b3f3f; /* Lightened Gunmetal background color */
+        color: #ffffff; /* White text color */
+        margin: 0;
+        padding: 0;
+        text-align: center; /* Center align text in the body */
+    }
+
+    h2 {
+        color: #f46516; /* Orange Pantone for heading */
+        margin-top: 2rem; /* Space above heading */
+        margin-bottom: 1rem; /* Space below heading */
+    }
+
+    p {
+        color: #f46516; /* Orange Pantone for paragraph text */
+        margin-bottom: 2rem; /* Space below paragraph */
+    }
+
+    .btn-primary {
+        background-color: #0a9d9b; /* Dark Cyan for primary buttons */
+        border-color: #0a9d9b; /* Dark Cyan border */
+        color: #ffffff; /* White text color for primary buttons */
+    }
+
+    .btn-primary:hover {
+        background-color: #f46516; /* Orange Pantone on hover */
+        border-color: #f46516; /* Orange Pantone border on hover */
+    }
+</style>
+
+<!-- Main heading for the access denied page -->
+<h2 style="color:red">Access Denied</h2>
+
+<!-- Message indicating lack of permission -->
+<p style="color:red">You do not have permission to access this page.</p>
+
+<!-- Logout button to allow the user to log out -->
+<div>
+    <form asp-action="Logout" method="post" class="d-inline">
+        <button type="submit" class="btn btn-primary">Logout</button>
+    </form>
+</div>

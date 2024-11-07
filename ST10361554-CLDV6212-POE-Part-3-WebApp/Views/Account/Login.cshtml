@@ -1,0 +1,135 @@
+﻿@model ST10361554_CLDV6212_POE_Part_3_WebApp.ViewModels.LoginViewModel
+
+@{
+    ViewData["Title"] = "Login";
+
+    var errorMessage = ViewData["ErrorMessage"] as string;
+}
+
+<style>
+    /* In-doc embedded style sheet for this view */
+    body {
+        background-color: #3b3f3f; /* Lightened Gunmetal background color */
+        color: #ffffff; /* White text color */
+    }
+
+    h2 {
+        color: #f46516; /* Orange Pantone for headings */
+    }
+
+    .form-group {
+        margin-bottom: 1rem; /* Space between form groups */
+    }
+
+        .form-group label {
+            color: #0a9d9b; /* Dark Cyan for labels */
+        }
+
+    .form-control:focus {
+        outline: none; /* Remove default focus outline */
+        box-shadow: 0 0 0 1px #0a9d9b; /* Subtle Dark Cyan glow on focus */
+        border-color: #0a9d9b; /* Dark Cyan border color on focus */
+    }
+
+    .text-danger {
+        color: #f8d7da; /* Light red for validation error messages */
+    }
+
+    .btn-primary {
+        background-color: #0a9d9b; /* Dark Cyan for primary buttons */
+        border-color: #0a9d9b; /* Dark Cyan border */
+        color: #ffffff; /* White text color for primary buttons */
+    }
+
+        .btn-primary:hover {
+            background-color: #f46516; /* Orange Pantone on hover */
+            border-color: #f46516; /* Orange Pantone border on hover */
+        }
+
+    .btn-secondary {
+        background-color: #272b2f; /* Gunmetal for secondary buttons */
+        border-color: #272b2f; /* Gunmetal border */
+        color: #ffffff; /* White text color for secondary buttons */
+    }
+
+        .btn-secondary:hover {
+            background-color: #0a9d9b; /* Dark Cyan on hover */
+            border-color: #0a9d9b; /* Dark Cyan border on hover */
+        }
+
+    .btn-warning {
+        background-color: #f46516; /* Orange Pantone for default button background */
+        border-color: #f46516; /* Orange Pantone border */
+        color: #ffffff; /* White text color */
+    }
+
+        .btn-warning:hover {
+            background-color: #0a9d9b; /* Dark Cyan for hover background */
+            border-color: #0a9d9b; /* Dark Cyan border */
+            color: #ffffff; /* White text color */
+        }
+
+</style>
+
+<!-- Main heading for the login page -->
+<h2>Welcome Back!</h2>
+<p class="lead">We're glad to see you again. Please login to continue.</p>
+
+<!-- Display error message if any -->
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+    <div class="alert alert-danger mb-2" role="alert">
+        @errorMessage
+    </div>
+}
+
+<!-- Login form with POST method -->
+<form asp-action="Login" method="post">
+    <!-- Email input field -->
+    <div class="form-group">
+        <label asp-for="Email"></label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+    <!-- Password input field with toggle visibility button -->
+    <div class="form-group">
+        <label asp-for="Password"></label>
+        <div class="input-group">
+            <input asp-for="Password" class="form-control" id="Input_Password" />
+            <div class="input-group-append">
+                <button type="button" id="togglePassword" class="btn btn-warning" onclick="togglePasswordVisibility()">Show</button>
+            </div>
+        </div>
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+    <br />
+    <!-- Submit button for the login form -->
+    <button type="submit" class="btn btn-primary">Login</button>
+</form>
+
+<br />
+<!-- Link to the registration page for new users -->
+<div>
+    <a asp-action="Register" class="btn btn-warning">Don't have an account? Register as a new user</a>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        // Function to toggle password visibility
+        function togglePasswordVisibility() {
+            var passwordInput = document.getElementById("Input_Password");
+            var toggleButton = document.getElementById("togglePassword");
+
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                toggleButton.textContent = "Hide";
+            } else {
+                passwordInput.type = "password";
+                toggleButton.textContent = "Show";
+            }
+        }
+    </script>
+}

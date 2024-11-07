@@ -1,0 +1,193 @@
+﻿@model ST10361554_CLDV6212_POE_Part_3_WebApp.ViewModels.RegisterViewModel
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+<style>
+    /* In-doc embedded style sheet for this view */
+    body {
+        background-color: #3b3f3f; /* Lightened Gunmetal background color */
+        color: #ffffff; /* White text color */
+    }
+
+    h2 {
+        color: #f46516; /* Orange Pantone for headings */
+    }
+
+    .form-group {
+        margin-bottom: 1rem; /* Space between form groups */
+    }
+
+        .form-group label {
+            color: #0a9d9b; /* Dark Cyan for labels */
+        }
+
+    .form-control:focus {
+        outline: none; /* Remove default focus outline */
+        box-shadow: 0 0 0 1px #0a9d9b; /* Subtle Dark Cyan glow on focus */
+        border-color: #0a9d9b; /* Dark Cyan border color on focus */
+    }
+
+    .text-danger {
+        color: #f8d7da; /* Light red for validation error messages */
+    }
+
+    .btn-primary {
+        background-color: #0a9d9b; /* Dark Cyan for primary buttons */
+        border-color: #0a9d9b; /* Dark Cyan border */
+        color: #ffffff; /* White text color for primary buttons */
+    }
+
+        .btn-primary:hover {
+            background-color: #f46516; /* Orange Pantone on hover */
+            border-color: #f46516; /* Orange Pantone border on hover */
+        }
+
+    .btn-secondary {
+        background-color: #272b2f; /* Gunmetal for secondary buttons */
+        border-color: #272b2f; /* Gunmetal border */
+        color: #ffffff; /* White text color for secondary buttons */
+    }
+
+        .btn-secondary:hover {
+            background-color: #0a9d9b; /* Dark Cyan on hover */
+            border-color: #0a9d9b; /* Dark Cyan border on hover */
+        }
+
+    .btn-warning {
+        background-color: #f46516; /* Orange Pantone for default button background */
+        border-color: #f46516; /* Orange Pantone border */
+        color: #ffffff; /* White text color */
+    }
+
+        .btn-warning:hover {
+            background-color: #0a9d9b; /* Dark Cyan for hover background */
+            border-color: #0a9d9b; /* Dark Cyan border */
+            color: #ffffff; /* White text color */
+        }
+
+    fieldset {
+        border: 1px solid #0a9d9b; /* Dark Cyan border for fieldsets */
+        padding: 1rem; /* Padding inside fieldsets */
+        border-radius: 0.375rem; /* Rounded corners for fieldsets */
+    }
+
+    legend {
+        color: #f46516; /* Orange Pantone for fieldset legends */
+        font-weight: bold; /* Bold font weight for legends */
+    }
+</style>
+
+<!-- Main heading for the registration page -->
+<h2>Account Registration</h2>
+<br />
+<!-- Registration form with POST method -->
+<form asp-action="Register" method="post">
+    <!-- Personal Details Section -->
+    <fieldset>
+        <legend>Personal Details</legend>
+
+        <!-- Name input field -->
+        <div class="form-group">
+            <label asp-for="Name"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <!-- Phone number input field -->
+        <div class="form-group">
+            <label asp-for="PhoneNumber"></label>
+            <input asp-for="PhoneNumber" class="form-control" />
+            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+        </div>
+
+        <!-- Email input field -->
+        <div class="form-group">
+            <label asp-for="Email"></label>
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <!-- Password input field with toggle visibility button -->
+        <div class="form-group">
+            <label asp-for="Password"></label>
+            <div class="input-group">
+                <input asp-for="Password" class="form-control" id="Input_Password" />
+                <div class="input-group-append">
+                    <button type="button" id="togglePassword" class="btn btn-primary" onclick="togglePasswordVisibility()">Show</button>
+                </div>
+            </div>
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+    </fieldset>
+    <br />
+    <!-- Address Details Section -->
+    <fieldset>
+        <legend>Address Details</legend>
+
+        <!-- Street address input field -->
+        <div class="form-group">
+            <label asp-for="StreetAddress"></label>
+            <input asp-for="StreetAddress" class="form-control" />
+            <span asp-validation-for="StreetAddress" class="text-danger"></span>
+        </div>
+
+        <!-- City input field -->
+        <div class="form-group">
+            <label asp-for="City"></label>
+            <input asp-for="City" class="form-control" />
+            <span asp-validation-for="City" class="text-danger"></span>
+        </div>
+
+        <!-- Province input field -->
+        <div class="form-group">
+            <label asp-for="Province"></label>
+            <input asp-for="Province" class="form-control" />
+            <span asp-validation-for="Province" class="text-danger"></span>
+        </div>
+
+        <!-- Postal code input field -->
+        <div class="form-group">
+            <label asp-for="PostalCode"></label>
+            <input asp-for="PostalCode" class="form-control" />
+            <span asp-validation-for="PostalCode" class="text-danger"></span>
+        </div>
+
+        <!-- Country input field -->
+        <div class="form-group">
+            <label asp-for="Country"></label>
+            <input asp-for="Country" class="form-control" />
+            <span asp-validation-for="Country" class="text-danger"></span>
+        </div>
+    </fieldset>
+    <br />
+    <!-- Submit button for the registration form -->
+    <button type="submit" class="btn btn-primary">Register</button>
+</form>
+
+<br />
+<!-- Link to the login page for existing users -->
+<div>
+    <a asp-action="Login" class="btn btn-warning">Already have an account? Login here</a>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        // Function to toggle password visibility
+        function togglePasswordVisibility() {
+            var passwordInput = document.getElementById("Input_Password");
+            var toggleButton = document.getElementById("togglePassword");
+
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                toggleButton.textContent = "Hide";
+            } else {
+                passwordInput.type = "password";
+                toggleButton.textContent = "Show";
+            }
+        }
+    </script>
+}
