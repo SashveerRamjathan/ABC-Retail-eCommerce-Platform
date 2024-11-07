@@ -4,6 +4,7 @@ using QuestPDF;
 using ST10361554_CLDV6212_POE_Part_3_WebApp.Data;
 using ST10361554_CLDV6212_POE_Part_3_WebApp.Services;
 using ST10361554_CLDV6212_POE_Part_3_WebApp.Interfaces;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace ST10361554_CLDV6212_POE_Part_3_WebApp
 {
@@ -41,6 +42,34 @@ namespace ST10361554_CLDV6212_POE_Part_3_WebApp
             // add the category service to the services collection
             builder.Services.AddScoped<ICategoryService, CategoryService>();
 
+            // add the queue service factory to the services collection
+            builder.Services.AddSingleton<IQueueServiceFactory>(sp =>
+            new QueueServiceFactory(
+                sp.GetRequiredService<ILogger<QueueService>>(),
+                sp.GetRequiredService<IHttpClientFactory>(),
+                sp.GetRequiredService<IConfiguration>()));
+
+            // add the file service factory to the services collection
+            builder.Services.AddSingleton<IFileServiceFactory>(sp =>
+            new FileServiceFactory(sp.GetRequiredService<ILogger<FileService>>(),
+                                   sp.GetRequiredService<IQueueServiceFactory>(),
+                                   sp.GetRequiredService<IHttpClientFactory>(),
+                                   sp.GetRequiredService<IConfiguration>()));
+
+            // add the http context accessor to the services collection
+            builder.Services.AddHttpContextAccessor();
+
+            // configure authentication
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+
+                    options.LoginPath = "/Account/Login"; // the path to the login page
+                    options.LogoutPath = "/Account/Logout"; // the path to the logout page
+                    options.AccessDeniedPath = "/Account/AccessDenied"; // the path to the access denied page
+                    options.ExpireTimeSpan = TimeSpan.FromMinutes(30); // the time span after which the cookie will expire
+                    options.SlidingExpiration = true; // // Refresh cookie expiration time on each request
+                });
 
             var app = builder.Build();
 
@@ -57,6 +86,8 @@ namespace ST10361554_CLDV6212_POE_Part_3_WebApp
 
             app.UseRouting();
 
+            // use authentication and authorization middleware
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(
