@@ -1,0 +1,121 @@
+﻿@model List<ST10361554_CLDV6212_POE_Part_3_WebApp.ViewModels.OrderIndexViewModel>
+
+@{
+    ViewBag.Title = "Order History";
+    string? success = ViewData["SuccessMessage"] as string;
+    string? error = ViewData["ErrorMessage"] as string;
+}
+
+<style>
+    /* In-doc embedded style sheet for this view */
+    body {
+        background-color: #3b3f3f; /* Lightened Gunmetal background color */
+        color: #ffffff; /* White text color */
+    }
+
+    h2 {
+        color: #f46516; /* Orange Pantone for headings */
+    }
+
+    .alert {
+        margin-bottom: 1rem; /* Space below alerts */
+        padding: 0.75rem 1.25rem; /* Padding inside alerts */
+        border-radius: 0.375rem; /* Rounded corners for alerts */
+    }
+
+    .alert-success {
+        background-color: #0a9d9b; /* Dark Cyan background color for success */
+        color: #ffffff; /* White text color for success alert */
+        border: 1px solid #0a9d9b; /* Dark Cyan border */
+    }
+
+    .alert-danger {
+        background-color: #f8d7da; /* Light red background color for error */
+        color: #721c24; /* Dark red text color for error alert */
+        border: 1px solid #f5c6cb; /* Light red border */
+    }
+
+    .card-deck {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem; /* Space between cards */
+    }
+
+    .card {
+        background-color: #272b2f; /* Gunmetal background color for cards */
+        color: #ffffff; /* White text color for cards */
+        border: 1px solid #0a9d9b; /* Dark Cyan border for cards */
+        border-radius: 0.375rem; /* Rounded corners for cards */
+    }
+
+    .card-body {
+        background-color: #3b3f3f; /* Lightened Gunmetal background for card body */
+        color: #ffffff; /* White text color for card body */
+    }
+
+    .card-title {
+        color: #f46516; /* Orange Pantone for card titles */
+    }
+
+    .card-subtitle {
+        color: #f8b400; /* Light orange for card subtitles */
+    }
+
+    .card-text {
+        color: #ffffff; /* White text color for card text */
+    }
+
+    .btn-primary {
+        background-color: #0a9d9b; /* Dark Cyan for primary buttons */
+        border-color: #0a9d9b; /* Dark Cyan border */
+        color: #ffffff; /* White text color for primary buttons */
+    }
+
+    .btn-primary:hover {
+        background-color: #f46516; /* Orange Pantone on hover */
+        border-color: #f46516; /* Orange Pantone border on hover */
+    }
+</style>
+
+<!-- Main heading for the order history page -->
+<h2>Order History</h2>
+
+<!-- Display success message if any -->
+@if (!string.IsNullOrEmpty(success))
+{
+    <div class="alert alert-success">@success</div>
+}
+
+<!-- Display error message if any -->
+@if (!string.IsNullOrEmpty(error))
+{
+    <div class="alert alert-danger">@error</div>
+}
+
+<br />
+
+<!-- Display order cards if the model is not null and contains items -->
+@if (Model != null && Model.Count > 0)
+{
+    <div class="card-deck">
+        @foreach (var order in Model)
+        {
+            <!-- Card for each order -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Order ID: @order.OrderID</h5>
+                    <h6 class="card-subtitle mb-2">Date: @order.OrderDate.ToString("dd-MM-yyyy HH:mm")</h6>
+                    <p class="card-text"><strong>Status:</strong> @order.OrderStatus</p>
+                    <p class="card-text"><strong>Total:</strong> @order.GrandTotal.ToString("C")</p>
+                    <a asp-action="OrderDetails" asp-route-partitionKey="@order.OrderID" class="btn btn-primary">View Details</a>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <p>No orders found.</p>
+    <br />
+    <a asp-controller="Product" asp-action="Index" class="btn btn-primary">Shop Now</a>
+}
