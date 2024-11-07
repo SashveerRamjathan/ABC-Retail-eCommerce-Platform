@@ -66,6 +66,13 @@ namespace ST10361554_CLDV6212_POE_Part_3_WebApp
                 sp.GetRequiredService<IConfiguration>(),
                 sp.GetRequiredService<IHttpClientFactory>()));
 
+            // add the product table storage service to the services collection
+            builder.Services.AddTransient<IProductDatabaseService>(sp =>
+                new ProductDatabaseStorageService(
+                    sp.GetRequiredService<IConfiguration>(),
+                    sp.GetRequiredService<ILogger<ProductDatabaseStorageService>>(),
+                    sp.GetRequiredService<IHttpClientFactory>()));
+
             // configure authentication
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
