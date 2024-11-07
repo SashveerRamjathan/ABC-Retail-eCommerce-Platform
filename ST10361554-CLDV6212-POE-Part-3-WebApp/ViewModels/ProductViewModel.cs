@@ -14,7 +14,7 @@ namespace ST10361554_CLDV6212_POE_Part_3_WebApp.ViewModels
 
         // Price of the product
         [Display(Name = "Product Price")]
-        public double ProductPrice { get; set; }
+        public decimal ProductPrice { get; set; }
 
         // Quantity of the product available
         [Display(Name = "Product Quantity")]
