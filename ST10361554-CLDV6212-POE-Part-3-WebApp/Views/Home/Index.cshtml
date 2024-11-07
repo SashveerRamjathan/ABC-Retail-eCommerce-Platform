@@ -1,8 +1,128 @@
-﻿@{
+﻿@model List<ST10361554_CLDV6212_POE_Part_3_WebApp.ViewModels.ProductViewModel>
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
+<style>
+    /* In-doc embedded style sheet for this view */
+    body {
+        background-color: #3b3f3f; /* Lightened Gunmetal background color */
+        color: #ffffff; /* White text color */
+    }
+
+    .text-center h1 {
+        color: #f46516; /* Orange Pantone for headings */
+    }
+
+    .text-center p {
+        color: #ffffff; /* White text color for paragraphs */
+    }
+
+    .text-center h2 {
+        color: #0a9d9b; /* Dark Cyan for subheadings */
+    }
+
+    .display-5 {
+        color: #f46516; /* Orange Pantone for the heading */
+        margin-bottom: 1rem; /* Margin below the heading */
+    }
+
+    .btn-primary {
+        background-color: #0a9d9b; /* Dark Cyan for primary buttons */
+        border-color: #0a9d9b; /* Dark Cyan border */
+        color: #ffffff; /* White text color */
+    }
+
+        .btn-primary:hover {
+            background-color: #f46516; /* Orange Pantone on hover */
+            border-color: #f46516; /* Orange Pantone border on hover */
+        }
+
+    .card {
+        background-color: #1c1e21; /* Dark background for cards */
+        color: #ffffff; /* White text color for cards */
+    }
+
+    .card-header {
+        background-color: #0a9d9b; /* Dark Cyan background for card header */
+        color: #ffffff; /* White text color for card header */
+    }
+
+    .card:hover {
+        transform: translateY(-5px); /* Elevate the card slightly */
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2), 0 0 8px rgba(244, 101, 22, 0.9); /* Subtle orange underglow effect */
+    }
+</style>
+
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Welcome to ABC Retail</h1> <!-- Main heading for the home page -->
+    <p>Your one-stop shop for quality products, unbeatable prices, and exceptional service. Explore our wide range of items, from everyday essentials to the latest trends, all in one place.</p> <!-- Introduction paragraph -->
 </div>
+<br />
+<div class="text-center">
+    <h2>About Us</h2> <!-- Subheading for the About Us section -->
+    <p>At ABC Retail, we believe in bringing you the best shopping experience. Our mission is to provide a diverse selection of products at competitive prices, ensuring that every customer finds exactly what they need. Whether you're looking for household goods, electronics, or the latest fashion, we've got you covered.</p> <!-- Paragraph detailing the company's mission -->
+</div>
+<br />
+<div class="text-center">
+    <h2>Featured Products</h2> <!-- Subheading for the Featured Products section -->
+    <p>Discover our top picks and best sellers. Handpicked for quality and value, these products are sure to meet your needs and exceed your expectations.</p> <!-- Paragraph introducing the featured products -->
+</div>
+
+@if (Model.Count > 0)
+{
+    <br />
+    <div class="row">
+        @foreach (var product in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-header text-center">
+                        @product.ProductName <!-- Display product name in the card header -->
+                    </div>
+                    <div class="card-body d-flex flex-column">
+                        @if (!string.IsNullOrEmpty(product.Base64ProductImage))
+                        {
+                            <img src="data:image/jpeg;base64,@product.Base64ProductImage" alt="Product Image" class="card-img-top" style="height: 200px; width: 100%; object-fit: contain;" /> <!-- Display product image if available -->
+                        }
+                        else
+                        {
+                            <p class="text-center">No image available</p> <!-- Display message if no image is available -->
+                        }
+
+                        <hr>
+                        <h5 class="card-title">Description</h5> <!-- Subheading for product description -->
+                        <p class="card-text flex-grow-1">@product.ProductDescription</p> <!-- Display product description -->
+
+                        <hr>
+                        <h6>Available Quantity: @product.ProductQuantity</h6> <!-- Display available quantity -->
+
+                        <hr>
+                        <h6>Price: @product.ProductPrice.ToString("C")</h6> <!-- Display product price -->
+
+                        <hr>
+                        <p class="category-label"><strong>Category:</strong> @product.Category</p> <!-- Display product category -->
+
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+
+<br />
+<div class="text-center">
+    <h2>What Our Customers Say</h2> <!-- Subheading for customer testimonials section -->
+    <p>"ABC Retail is my go-to store for everything I need. The prices are great, and the service is even better!" – Jane Doe</p> <!-- Customer testimonial -->
+    <p>"Fast shipping, quality products, and friendly customer service. I couldn't ask for more." – John Smith</p> <!-- Customer testimonial -->
+</div>
+
+@if (User.IsInRole("Customer"))
+{
+    <div class="container mt-5 text-center">
+        <h2>Why Wait? Discover Your Next Favorite Product Today!</h2> <!-- Subheading for call-to-action section -->
+        <p>At ABC Retail, we’re committed to bringing you the best products at unbeatable prices. Whether you’re searching for something specific or just browsing, you’re bound to find something you love. Start shopping now and take advantage of our latest offers.</p> <!-- Call-to-action paragraph -->
+        <a asp-action="Index" asp-controller="Product" class="btn btn-primary btn-lg">Shop Now</a> <!-- Button to navigate to the product index page -->
+    </div>
+}
