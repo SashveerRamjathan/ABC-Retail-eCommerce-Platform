@@ -1,0 +1,215 @@
+﻿@model List<ST10361554_CLDV6212_POE_Part_3_WebApp.ViewModels.AdminOrderItemViewModel>
+
+@{
+    ViewBag.Title = "Order Details (Admin)";
+
+    var success = ViewData["SuccessMessage"] as string;
+    var error = ViewData["ErrorMessage"] as string;
+}
+
+<style>
+    /* In-doc embedded style sheet for this view */
+    body {
+        background-color: #3b3f3f; /* Lightened Gunmetal background color */
+        color: #ffffff; /* White text color */
+    }
+
+    h2 {
+        color: #f46516; /* Orange Pantone for headings */
+    }
+
+    .alert {
+        margin-bottom: 1rem; /* Space below alerts */
+        padding: 0.75rem 1.25rem; /* Padding inside alerts */
+        border-radius: 0.375rem; /* Rounded corners for alerts */
+    }
+
+    .alert-success {
+        background-color: #0a9d9b; /* Dark Cyan background color for success */
+        color: #ffffff; /* White text color for success alert */
+        border: 1px solid #0a9d9b; /* Dark Cyan border */
+    }
+
+    .alert-danger {
+        background-color: #f5c6cb; /* Light red background color for error */
+        color: #721c24; /* Dark red text color for error alert */
+        border: 1px solid #f5c6cb; /* Light red border */
+    }
+
+    .btn-primary {
+        background-color: #0a9d9b; /* Dark Cyan for primary buttons */
+        border-color: #0a9d9b; /* Dark Cyan border */
+        color: #ffffff; /* White text color for primary buttons */
+    }
+
+        .btn-primary:hover {
+            background-color: #f46516; /* Orange Pantone on hover */
+            border-color: #f46516; /* Orange Pantone border on hover */
+        }
+
+    .btn-success {
+        background-color: #0a9d9b; /* Dark Cyan for success buttons */
+        border-color: #0a9d9b; /* Dark Cyan border */
+        color: #ffffff; /* White text color for success buttons */
+    }
+
+        .btn-success:hover {
+            background-color: #218838; /* Darker green on hover */
+            border-color: #1e7e34; /* Darker green border on hover */
+        }
+
+    .inline-form {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem; /* Space between elements in inline form */
+    }
+
+    .subscript-text {
+        font-size: 0.75rem; /* Smaller font size, similar to subscript */
+        color: #0a9d9b; /* Lighter color for subscript text */
+        margin: 0; /* Remove default margin */
+    }
+
+    /* Table styles */
+    .table th {
+        color: #f46516; /* Orange Pantone color for column headings */
+    }
+
+    .table td {
+        color: #ffffff; /* White text color for table cells */
+    }
+
+    .table tr {
+        border-bottom: 2px solid #0a9d9b; /* Cyan row separators */
+    }
+
+    .img-thumbnail {
+        max-width: 120px;
+        height: auto;
+    }
+
+    /* Dropdown styling */
+    .form-control {
+        background-color: #1c1e21; /* Dark background for dropdown */
+        color: #ffffff; /* White text color for dropdown */
+        border: 1px solid #dee2e6; /* Light gray border */
+    }
+
+        .form-control option {
+            background-color: #1c1e21; /* Dark background for dropdown options */
+            color: #ffffff; /* White text color for dropdown options */
+        }
+
+            .form-control option:hover {
+                background-color: #0a9d9b; /* Dark Cyan background on hover */
+                color: #ffffff; /* White text color on hover */
+            }
+
+        .form-control:focus {
+            border-color: #0a9d9b; /* Dark Cyan border on focus */
+            box-shadow: 0 0 0 0.2rem rgba(10, 157, 155, 0.25); /* Light Cyan shadow on focus */
+        }
+
+
+</style>
+
+<h2>Order Details</h2>
+<br />
+@if (success != null)
+{
+    <div class="alert alert-success">
+        @success
+    </div>
+}
+
+@if (error != null)
+{
+    <div class="alert alert-danger">
+        @error
+    </div>
+}
+
+@if (Model != null && Model.Count > 0)
+{
+    <div>
+        <p><strong>Order ID:</strong> @ViewBag.OrderID</p>
+        <p><strong>Order Date:</strong> @ViewBag.OrderDate.ToString("dd-MM-yyyy HH:mm")</p>
+        <p><strong>Whole Order Status:</strong> @ViewBag.OrderStatus</p>
+        <form asp-action="UpdateWholeOrderStatus" method="post" class="inline-form">
+            <input type="hidden" name="orderId" value="@ViewBag.OrderID" />
+            <input type="hidden" name="customerId" value="@ViewBag.CustomerID" />
+            <select class="form-control" name="status">
+                <option value="Pending">Pending</option>
+                <option value="Processed">Processed</option>
+                <option value="Shipped">Shipped</option>
+            </select>
+            <button type="submit" class="btn btn-primary">Confirm</button>
+        </form>
+    </div>
+    <br />
+    <div>
+        <form asp-action="DownloadInvoice" method="post" class="inline-form">
+            <input type="hidden" name="orderId" value="@ViewBag.OrderID" />
+            <input type="hidden" name="customerId" value="@ViewBag.CustomerID" />
+            <button type="submit" class="btn btn-success">Download Invoice</button>
+        </form>
+        <p class="subscript-text">Please refresh the page to see if your download was successful</p>
+    </div>
+    <br />
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Quantity</th>
+                <th>Image</th>
+                <th>Subtotal</th>
+                <th>Current Status</th>
+                <th>Update Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.ProductName</td>
+                    <td>@item.Quantity</td>
+                    <td>
+                        @if (item.Base64ProductImage != null)
+                        {
+                            <img src="data:image;base64,@item.Base64ProductImage" alt="Product Image" class="img-thumbnail" />
+                        }
+                        else
+                        {
+                            <p>No image available</p>
+                        }
+                    </td>
+                    <td>@item.TotalItemPrice.ToString("C")</td>
+                    <td>@item.ItemStatus</td>
+                    <td>
+                        <form asp-action="UpdateOrderItemStatus" method="post" class="inline-form">
+                            <input type="hidden" name="orderId" value="@ViewBag.OrderID" />
+                            <input type="hidden" name="customerId" value="@ViewBag.CustomerID" />
+                            <input type="hidden" name="productId" value="@item.ProductId" />
+                            <select class="form-control" name="status">
+                                <option value="Pending">Pending</option>
+                                <option value="Processed">Processed</option>
+                                <option value="Shipped">Shipped</option>
+                            </select>
+                            <button type="submit" class="btn btn-primary">Confirm</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div>
+        <p><strong>Total:</strong> @Model.Sum(i => i.TotalItemPrice).ToString("C")</p>
+    </div>
+
+    <a asp-action="Index" class="btn btn-primary">Back to Order History</a>
+}
+else
+{
+    <p>Order details not found.</p>
+}
