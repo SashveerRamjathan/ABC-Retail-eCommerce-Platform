@@ -13,6 +13,6 @@ namespace ST10361554_CLDV6212_POE_Part_3_WebApp.ViewModels
         public int Quantity { get; set; }
 
         // Total price for this cart item (Quantity * Unit Price)
-        public double TotalPrice { get; set; }
+        public decimal TotalPrice { get; set; }
     }
 }

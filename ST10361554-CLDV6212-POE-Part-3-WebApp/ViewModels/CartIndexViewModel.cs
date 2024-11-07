@@ -6,6 +6,6 @@
         public List<CartItemViewModel>? CartItems { get; set; }
 
         // Total price of all items in the cart
-        public double GrandTotal { get; set; }
+        public decimal GrandTotal { get; set; }
     }
 }
