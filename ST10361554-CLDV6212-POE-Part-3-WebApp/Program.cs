@@ -80,6 +80,12 @@ namespace ST10361554_CLDV6212_POE_Part_3_WebApp
                 sp.GetRequiredService<IConfiguration>(),
                 sp.GetRequiredService<IHttpClientFactory>()));
 
+            // add the shopping cart service to the services collection
+            builder.Services.AddSingleton<IShoppingCartService>(sp =>
+            new ShoppingCartService(sp.GetRequiredService<ILogger<ShoppingCartService>>(),
+                                    sp.GetRequiredService<IProductDatabaseService>(),
+                                    sp.GetRequiredService<IQueueServiceFactory>()));
+
             // configure authentication
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
