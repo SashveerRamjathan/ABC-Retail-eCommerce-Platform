@@ -23,6 +23,9 @@ namespace ST10361554_CLDV6212_POE_Part_3_WebApp
             // add the http client factory to the services collection
             builder.Services.AddHttpClient();
 
+            // add the http context accessor to the services collection
+            builder.Services.AddHttpContextAccessor();
+
             //Get the connection string
             var connectionString = builder.Configuration.GetConnectionString("AzureDatabaseConnectionString") ?? throw new InvalidOperationException("Connection string 'AzureDatabaseConnectionString' not found.");
 
@@ -56,8 +59,12 @@ namespace ST10361554_CLDV6212_POE_Part_3_WebApp
                                    sp.GetRequiredService<IHttpClientFactory>(),
                                    sp.GetRequiredService<IConfiguration>()));
 
-            // add the http context accessor to the services collection
-            builder.Services.AddHttpContextAccessor();
+            // add the product blob storage service to the services collection
+            builder.Services.AddTransient<IProductBlobStorageService>(sp =>
+            new ProductBlobStorageService(
+                sp.GetRequiredService<ILogger<ProductBlobStorageService>>(),
+                sp.GetRequiredService<IConfiguration>(),
+                sp.GetRequiredService<IHttpClientFactory>()));
 
             // configure authentication
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
