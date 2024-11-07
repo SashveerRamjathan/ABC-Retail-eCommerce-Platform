@@ -12,6 +12,6 @@
         public required string OrderStatus { get; set; }
 
         // Total amount for the order
-        public double GrandTotal { get; set; }
+        public decimal GrandTotal { get; set; }
     }
 }

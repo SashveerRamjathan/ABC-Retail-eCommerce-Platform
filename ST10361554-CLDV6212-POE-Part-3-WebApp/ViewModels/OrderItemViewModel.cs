@@ -9,7 +9,7 @@
         public int Quantity { get; set; }
 
         // Total price for this item (Quantity * Unit Price)
-        public double TotalItemPrice { get; set; }
+        public decimal TotalItemPrice { get; set; }
 
         // Current status of the item (e.g., In Stock, Out of Stock, Shipped)
         public required string ItemStatus { get; set; }
