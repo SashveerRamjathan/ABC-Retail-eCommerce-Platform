@@ -95,6 +95,12 @@ namespace ST10361554_CLDV6212_POE_Part_3_WebApp
                                           sp.GetRequiredService<IQueueServiceFactory>(),
                                           sp.GetRequiredService<IWebHostEnvironment>()));
 
+            // add the invoice generation service to the services collection
+            builder.Services.AddTransient<IInvoiceGenerationService>(sp =>
+            new InvoiceGenerationService(sp.GetRequiredService<IInvoiceInformationService>(),
+                                        sp.GetRequiredService<IQueueServiceFactory>(),
+                                        sp.GetRequiredService<ILogger<InvoiceGenerationService>>()));
+
             // configure authentication
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
