@@ -270,6 +270,7 @@ namespace ST10361554_CLDV6212_POE_Part_3_WebApp.Controllers
                     {
                         var item = new Order
                         {
+                            Id = Guid.NewGuid().ToString(),
                             OrderId = orderId,
                             ProductId = cartItem.Product.Id,
                             OrderDate = DateTime.Now,
