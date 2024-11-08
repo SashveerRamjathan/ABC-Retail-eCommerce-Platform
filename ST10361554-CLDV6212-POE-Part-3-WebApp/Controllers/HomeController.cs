@@ -29,8 +29,14 @@ namespace ST10361554_CLDV6212_POE_Part_3_WebApp.Controllers
             // Retrieve all products from the product service
             var products = await _productService.GetAllProductsAsync();
 
-            // Select up to 4 random products that are in stock
-            var randomProducts = products.Take(4).Where(x => x.Quantity > 0).ToList();
+            // Get products that are in stock
+            var inStockProducts = products.Where(x => x.Quantity > 0).ToList();
+
+            // Randomize the order of the in-stock products
+            var randomProducts = inStockProducts
+                .OrderBy(x => Guid.NewGuid())  // Shuffle the list using a random GUID
+                .Take(3)                      // Take up to 3 random products
+                .ToList();
 
             List<ProductViewModel> productsViewModel = new List<ProductViewModel>();
 
