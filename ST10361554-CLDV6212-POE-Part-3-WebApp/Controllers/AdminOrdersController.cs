@@ -148,7 +148,7 @@ namespace ST10361554_CLDV6212_POE_Part_3_WebApp.Controllers
                     return View(orders);
                 }
 
-                _logger.LogError("Failed to retrieve orders for admin");
+                _logger.LogError("Failed to retrieve orders for admin might be null or 0");
                 TempData["ErrorMessage"] = "Failed to retrieve orders for admin";
 
                 await _orderQueueService.SendMessageAsync("Failed to retrieve orders for admin", orderQueueName);
