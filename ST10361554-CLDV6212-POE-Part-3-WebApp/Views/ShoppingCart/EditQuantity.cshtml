@@ -80,11 +80,11 @@
     <div class="form-group">
         <label for="Quantity">Quantity</label>
         <input type="number" name="Quantity" id="Quantity" value="@Model.Quantity" min="0" class="form-control" />
-        <input type="hidden" name="Product.PartitionKey" value="@Model.Product.Category" />
-        <input type="hidden" name="Product.RowKey" value="@Model.Product.Id" />
-        <input type="hidden" name="Product.ProductPrice" value="@Model.Product.Price" />
-        <input type="hidden" name="Product.ProductName" value="@Model.Product.Name" />
-        <input type="hidden" name="Product.ProductDescription" value="@Model.Product.Description" />
+        <input type="hidden" name="Product.Category" value="@Model.Product.Category" />
+        <input type="hidden" name="Product.Id" value="@Model.Product.Id" />
+        <input type="hidden" name="Product.Price" value="@Model.Product.Price" />
+        <input type="hidden" name="Product.Name" value="@Model.Product.Name" />
+        <input type="hidden" name="Product.Description" value="@Model.Product.Description" />
     </div>
 
     <br />
