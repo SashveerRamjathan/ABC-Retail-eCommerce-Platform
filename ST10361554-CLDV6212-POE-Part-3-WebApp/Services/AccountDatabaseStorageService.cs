@@ -475,6 +475,7 @@ namespace ST10361554_CLDV6212_POE_Part_3_WebApp.Services
                 // If the user is null, return
                 if (user == null)
                 {
+                    _logger.LogWarning($"User with email {username} not found.");
                     return;
                 }
 
