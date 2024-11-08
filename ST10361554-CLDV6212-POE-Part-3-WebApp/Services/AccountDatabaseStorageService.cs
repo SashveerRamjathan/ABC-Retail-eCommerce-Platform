@@ -127,7 +127,7 @@ namespace ST10361554_CLDV6212_POE_Part_3_WebApp.Services
                 #region make a GET request 
 
                 // Get the URL from configuration
-                var url = _configuration["AccountDatabaseStorageUrls:GetUserByEmailAsync"];
+                var url = _configuration["AccountDatabaseStorageUrls:GetUserByEmail"];
 
                 if (string.IsNullOrEmpty(url))
                 {
