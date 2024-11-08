@@ -35,21 +35,29 @@
                 text-shadow: 0 0 5px rgba(10, 157, 155, 0.75); /* Dark Cyan glow */
             }
 
-        /* Footer styling */
+        /* Basic styling for the footer */
         .footer {
-            background-color: #272b2f; /* Gunmetal */
-            color: #f46516; /* Orange Pantone */
+            width: 100%;
+            padding: 1rem;
+            background-color: #272b2f; 
+            color: lightgrey; 
+            text-align: center;
+            font-size: 0.9rem;
         }
 
+            /* Ensures footer text links don't inherit any global link styles */
             .footer a {
                 color: #f46516; /* Orange Pantone */
                 transition: color 0.3s ease, text-shadow 0.3s ease;
             }
 
+                /* Change link color on hover */
                 .footer a:hover {
                     color: #0a9d9b; /* Dark Cyan */
                     text-shadow: 0 0 5px rgba(244, 101, 22, 0.75); /* Orange glow */
                 }
+
+        
     </style>
 
 </head>
@@ -119,11 +127,10 @@
     </div>
     <br />
     <br />
-    <footer class="footer text-muted box-shadow mb-3" style="background-color: #272b2f;">
-        <div class="container">
-            &copy; 2024 - ABC Retail - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
+    <footer class="footer">
+        &copy; 2024 - ABC Retail - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
