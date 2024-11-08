@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using ST10361554_CLDV6212_POE_Part_3_WebApp.Interfaces;
 using ST10361554_CLDV6212_POE_Part_3_WebApp.Models;
 using ST10361554_CLDV6212_POE_Part_3_WebApp.Services;
@@ -43,10 +44,25 @@ namespace ST10361554_CLDV6212_POE_Part_3_WebApp.Controllers
                 TempData["SuccessMessage"] = $"Displaying products for category {category}";
             }
 
+            // based on all the products categories get the categories from the category service
+            var productCategories = products.Select(p => p.Category).Distinct().ToList();
+
+            var allCategories = _categoryService.GetCategories();
+
+            // Filter categories to include only those that have products, then create SelectListItems
+            var selectListItems = allCategories
+                .Where(c => productCategories.Contains(c.Value))
+                .Select(c => new SelectListItem
+                {
+                    Value = c.Value,  // The actual value that will be sent to the server when selected
+                    Text = c.Text     // The text that will be displayed in the dropdown
+                })
+                .ToList();
+
             var viewModel = new ProductIndexViewModel
             {
                 Products = new List<ProductViewModel>(),
-                Categories = _categoryService.GetCategories(),
+                Categories = selectListItems,
                 SelectedCategory = category
             };
 
