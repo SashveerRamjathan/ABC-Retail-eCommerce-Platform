@@ -2,16 +2,16 @@
 {
     public class Product
     {
-        public string Id { get; set; }
+        public string Id { get; set; } // product id
 
-        public string Category { get; set; }
+        public string Category { get; set; } // product category
 
-        public string Name { get; set; }
+        public string Name { get; set; } // product name
 
-        public string Description { get; set; }
+        public string Description { get; set; } // product description
 
-        public decimal Price { get; set; }
+        public decimal Price { get; set; } // product price
 
-        public int Quantity { get; set; }
+        public int Quantity { get; set; } // product quantity
     }
 }
