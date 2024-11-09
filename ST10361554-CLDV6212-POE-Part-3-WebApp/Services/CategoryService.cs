@@ -30,7 +30,7 @@ namespace ST10361554_CLDV6212_POE_Part_3_WebApp.Services
                 new SelectListItem {Value = "Pets", Text = "Pets"},
                 new SelectListItem {Value = "Garden", Text = "Garden"},
                 new SelectListItem {Value = "Jewellery", Text = "Jewellery"}
-            };
+            }.OrderBy(x => x.Text).ToList();
         }
     }
 }
