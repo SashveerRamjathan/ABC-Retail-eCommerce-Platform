@@ -8,28 +8,28 @@ namespace ST10361554_CLDV6212_POE_Part_3_Functions.Models
 {
     public class User
     {
-        public string Id { get; set; }
+        public string Id { get; set; } // Primary key
 
-        public string Role { get; set; }
+        public string Role { get; set; } // Role of the user
 
-        public string Username { get; set; }
+        public string Username { get; set; } // Username
 
-        public string PasswordHash { get; set; }
+        public string PasswordHash { get; set; } // Hashed password
 
-        public string Email { get; set; }
+        public string Email { get; set; } // Email address
 
-        public string? Name { get; set; }
+        public string? Name { get; set; } // Name of the user
 
-        public string? StreetAddress { get; set; }
+        public string? StreetAddress { get; set; } // Street address
 
-        public string? City { get; set; }
+        public string? City { get; set; } // City
 
-        public string? Province { get; set; }
+        public string? Province { get; set; } // Province
 
-        public string? PostalCode { get; set; }
+        public string? PostalCode { get; set; } // Postal code
 
-        public string? Country { get; set; }
+        public string? Country { get; set; } // Country
 
-        public string? PhoneNumber { get; set; }
+        public string? PhoneNumber { get; set; } // Phone number
     }
 }
